@@ -22,6 +22,7 @@ Route::group(array('prefix' => '/'), function() {
 	Route::resource('autheurs', 'AutheursController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
+	Route::get('recettes/search/{txt}', 'RecettesController@search');
 	Route::resource('recettes', 'RecettesController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 

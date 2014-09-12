@@ -20,8 +20,6 @@ class RecettesController extends \BaseController {
 		$linkphotos = DB::table('link_recette_photo')->get();
 		$linkpreparations = DB::table('link_recette_preparation')->get();
 
-		$countries = DB::table('countries')->get();
-
 		$authors = DB::table('autheurs')->get();
 		$categories = DB::table('categories')->get();
 		$photos = DB::table('photos')->get();
@@ -31,7 +29,6 @@ class RecettesController extends \BaseController {
 		$phrasePrepas = DB::table('phrasePrepas')->get();
 		$categoriePrepas = DB::table('categoriePrepas')->get();
 		
-
 		$recettesCopy = $recettes;
 		
 		$i = 0;
@@ -40,15 +37,12 @@ class RecettesController extends \BaseController {
 
 			// On ajoute le pays pour chaque recette.
 			$recettes[$i]['country'] = array();
-			foreach ($countries as $country) {
-				if (strcmp($country['id'], $currentrecette['idPays']) == 0) {
-					$recettes[$i]['country'] = $country['nom'];
-				}
-			}
+			$countries = Country::where('id', '=', $currentrecette['idPays'])->firstOrFail();
+			$recettes[$i]['country'] = $countries->nom;
 
 			// On ajoute les auteurs pour chaque recette.
 		 	$recettes[$i]['authors'] = array();
-		 	
+
 			foreach ($linkauthors as $currentlinkauthor) {
 				
 				if (strcmp($currentrecette['id'],$currentlinkauthor['idRecette']) == 0) {
@@ -57,8 +51,7 @@ class RecettesController extends \BaseController {
 		    			
 						if (strcmp($author['id'],$currentlinkauthor['idAutheur']) == 0) {
 							
-							$recettes[$i]['authors'][$k] = $author['nom'];
-							$k++;
+							array_push($recettes[$i]['authors'], $author['nom']);
 						}
 				    
 					}
@@ -69,7 +62,7 @@ class RecettesController extends \BaseController {
 
 			// On ajoute les catégories pour chaque recette.
 			$recettes[$i]['categories'] = array();
-			$k = 0;
+
 			foreach ($linkcategories as $currentlinkcategorie) {
 				
 				if (strcmp($currentrecette['id'],$currentlinkcategorie['idRecette']) == 0) {
@@ -78,8 +71,7 @@ class RecettesController extends \BaseController {
 		    			
 						if (strcmp($categorie['id'],$currentlinkcategorie['idCategorie']) == 0) {
 							
-							$recettes[$i]['categories'][$k] = $categorie['nom'];
-							$k++;
+							array_push($recettes[$i]['categories'], $categorie['nom']);
 						}
 				    
 					}
@@ -90,7 +82,7 @@ class RecettesController extends \BaseController {
 
 			// On ajoute les photos pour chaque recette.
 			$recettes[$i]['photos'] = array();
-			$k = 0;
+
 			foreach ($linkphotos as $currentlinkphoto) {
 				
 				if (strcmp($currentrecette['id'],$currentlinkphoto['idRecette']) == 0) {
@@ -99,8 +91,7 @@ class RecettesController extends \BaseController {
 		    			
 						if (strcmp($photo['id'],$currentlinkphoto['idPhoto']) == 0) {
 							
-							$recettes[$i]['photos'][$k] = $photo['nom'];
-							$k++;
+							array_push($recettes[$i]['photos'], $photo['nom']);
 						}
 				    
 					}
@@ -207,17 +198,6 @@ class RecettesController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 * GET /recettes/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 * POST /recettes
 	 *
@@ -237,7 +217,109 @@ class RecettesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$recette = Recette::find($id);
+
+		// On ajoute le pays pour la recette.
+		$recette['country'] = array();
+		$countries = Country::where('id', '=', $recette['idPays'])->firstOrFail();
+		$recette['country'] = $countries->nom;
+
+		// On ajoute les auteurs pour la recette.
+	 	$recette['authors'] = array();
+	 	$listIdauthors = DB::table('link_recette_author')->where('idRecette', '=', $recette['id'])->lists('idAutheur'); // On recherche les id de tous les auteurs de la recette
+	 	$autheurs = Autheur::whereIn('id',$listIdauthors)->lists('nom'); // on recherche tous les noms des auteurs de la recette.
+	 	$recette['authors'] = $autheurs;
+
+		// On ajoute les catégories pour la recette.
+		$recette['categories'] = array();
+	 	$listIdcategories = DB::table('link_recette_categorie')->where('idRecette', '=', $recette['id'])->lists('idCategorie');
+	 	$categories = Categorie::whereIn('id',$listIdcategories)->lists('nom');
+	 	$recette['categories'] = $categories;
+
+		// On ajoute les photos pour chaque recette.
+		$recette['photos'] = array();
+	 	$listIdphotos = DB::table('link_recette_photo')->where('idRecette', '=', $recette['id'])->lists('idPhoto');
+	 	$photos = Photo::whereIn('id',$listIdphotos)->lists('nom');
+	 	$recette['photos'] = $photos;
+
+		// On ajoute la liste de chaque categorie d'ingredients pour chaque recette.
+		$recette['ingredients'] = array();
+	 	$listIdCategorieIngred = DB::table('link_recette_ingred')->where('idRecette', '=', $recette['id'])->distinct()->lists('idCategorie');
+	 	$listIdIngred = DB::table('link_recette_ingred')->where('idRecette', '=', $recette['id'])->lists('idIngredient');
+	 	$listQuantIngred = DB::table('link_recette_ingred')->where('idRecette', '=', $recette['id'])->lists('idQuantite');
+	 	$listOrdreIngred = DB::table('link_recette_ingred')->where('idRecette', '=', $recette['id'])->lists('Ordre');
+
+	 		// On met dans un tableau le nombre d'ingredient par categorie
+	 	$listNbrIngrParCat = array();
+	 	foreach ($listIdCategorieIngred as $idCatIngre) {
+	 		$listNbrIngrParCat[sizeof($listNbrIngrParCat)] = DB::table('link_recette_ingred')->where('idRecette', '=', $recette['id'])->where('idCategorie', '=', $idCatIngre)->distinct()->count();
+	 	
+	 	}
+	 		//On récupère le nom des catégories.
+	 	$nomsCatIngredients = CategorieIngredient::whereIn('id',$listIdCategorieIngred)->lists('nom');
+	 	$ingredients=array();
+	 	foreach ($listIdIngred as $idIngredCurrent) {
+	 		$ing = Ingredient::where('id','=',$idIngredCurrent)->firstOrFail();
+	 		array_push($ingredients, $ing->nom);
+	 	}
+	 	
+		$ingredientsFinal = array();
+	 	for ($j=0; $j < sizeof($listIdCategorieIngred) ; $j++) { 
+
+	 		$ingredientsArray = array();
+
+	 		$offset = 0; // on a créé un décalage pour parcourir la lsite des ingrédients.
+	 		if ($j != 0) { $offset = $listNbrIngrParCat[$j - 1]; }
+	 		
+	 		for ($i=0 + $offset; $i < $listNbrIngrParCat[$j] + $offset ; $i++) { 
+				$ingredientsArray[$i] = array('Ordre' => $listOrdreIngred[$i],'Ingredient' => $ingredients[$i],'lien' => "");
+	 		}
+
+	 		$ingredientsFinal[$j] = array('Titre' => $nomsCatIngredients[$j],'DetailsIngre' => $ingredientsArray);
+	 	}
+	 	
+	 	$recette['ingredients'] = $ingredientsFinal;
+
+
+		// On ajoute la liste de chaque categorie de préparations pour la recette.
+
+		$recette['preparations'] = array();
+	 	$listIdCategoriePrepa = DB::table('link_recette_preparation')->where('idRecette', '=', $recette['id'])->distinct()->lists('idCatPrepa');
+	 	$listIdPhrasePrepa = DB::table('link_recette_preparation')->where('idRecette', '=', $recette['id'])->lists('idPhrasePrepa');
+	 	$listOrdrePhrase = DB::table('link_recette_preparation')->where('idRecette', '=', $recette['id'])->lists('Ordre');
+
+	 		// On met dans un tableau le nombre de phrase de préparation par categorie
+	 	$listNbrPhraseParCat = array();
+	 	foreach ($listIdCategoriePrepa as $idCatPrepa) {
+	 		$listNbrPhraseParCat[sizeof($listNbrPhraseParCat)] = DB::table('link_recette_preparation')->where('idRecette', '=', $recette['id'])->where('idCatPrepa', '=', $idCatPrepa)->distinct()->count();
+	 	
+	 	}
+	 		//On récupère le nom des catégories de préparation.
+	 	$nomsCatPhrase = CategoriePrepa::whereIn('id',$listIdPhrasePrepa)->lists('nom');
+	 	$phrases=array();
+	 	foreach ($listIdPhrasePrepa as $idPhrasePrepaCurrent) {
+	 		$phrase = PhrasePrepa::where('id','=',$idPhrasePrepaCurrent)->firstOrFail();
+	 		array_push($phrases, $phrase->phrase);
+	 	}
+	 	
+		$phrasesFinal = array();
+	 	for ($j=0; $j < sizeof($listIdCategoriePrepa) ; $j++) { 
+
+	 		$phrasesArray = array();
+
+	 		$offset = 0; // on a créé un décalage pour parcourir la lsite des ingrédients.
+	 		if ($j != 0) { $offset = $listNbrPhraseParCat[$j - 1]; }
+	 		
+	 		for ($i=0 + $offset; $i < $listNbrPhraseParCat[$j] + $offset ; $i++) { 
+				$phrasesArray[$i] = array('Ordre' => $listOrdrePhrase[$i],'Phrase' => $phrases[$i]);
+	 		}
+
+	 		$phrasesFinal[$j] = array('Titre' => $nomsCatPhrase[$j],'Phrases' => $phrasesArray);
+	 	}
+	 	
+	 	$recette['preparations'] = $phrasesFinal;
+
+		return Response::json($recette);
 	}
 
 	/**

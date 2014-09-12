@@ -16,7 +16,8 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::group(array('prefix' => '/api'), function() {
+Route::group(array('prefix' => '/'), function() {
+
 
 	Route::resource('autheurs', 'AutheursController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
@@ -33,7 +34,7 @@ Route::group(array('prefix' => '/api'), function() {
 	Route::resource('countries', 'CountriesController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
-	Route::resource('quantiteingredients', 'QuantiteIngredientController', 
+	Route::resource('quantiteingredients', 'QuantiteIngredientsController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
 	Route::resource('photos', 'PhotosController', 
@@ -41,6 +42,13 @@ Route::group(array('prefix' => '/api'), function() {
 
 	Route::resource('ingredients', 'IngredientsController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
+
+	Route::resource('categories', 'CategoriesController', 
+		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
+
+	Route::resource('categorierecettes', 'CategorieRecettesController', 
+		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
+	
 
 
 });

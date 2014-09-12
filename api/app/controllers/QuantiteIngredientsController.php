@@ -10,7 +10,7 @@ class QuantiteIngredientsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Response::json(QuantiteIngredient::get());
 	}
 
 	/**

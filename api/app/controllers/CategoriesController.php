@@ -13,16 +13,6 @@ class CategoriesController extends \BaseController {
 		return Response::json(Categorie::get());
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /categories/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -44,7 +34,12 @@ class CategoriesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$categories = DB::table('categories')
+            ->where('categories.idParent', '=', $id )
+            ->select('categories.*')
+            ->get();
+
+		return Response::json($categories);
 	}
 
 	/**

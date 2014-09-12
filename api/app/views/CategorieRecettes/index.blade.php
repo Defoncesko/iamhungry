@@ -1,0 +1,1 @@
+/Users/Defoncesko/Documents/Site/iamhungry/api/app/views/CategorieRecettes/index.blade.php

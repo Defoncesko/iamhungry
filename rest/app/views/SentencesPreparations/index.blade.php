@@ -1,0 +1,1 @@
+/Users/Defoncesko/Documents/Site/iamhungry/rest/app/views/SentencesPreparations/index.blade.php

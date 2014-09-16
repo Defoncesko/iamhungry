@@ -22,6 +22,7 @@ Route::group(array('prefix' => '/'), function() {
 	Route::resource('authors', 'AuthorsController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
+	Route::get('recipes/{valuedep}/{valuefin}', 'RecipesController@select');
 	Route::get('recipes/search/{txt}', 'RecipesController@search');
 	Route::resource('recipes', 'RecipesController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
@@ -29,7 +30,7 @@ Route::group(array('prefix' => '/'), function() {
 	Route::resource('categories', 'CategoriesController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
-	Route::resource('categorieprepas', 'CategoriePrepasController', 
+	Route::resource('categoriepreparations', 'CategoriesPreparationsController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
 	Route::resource('countries', 'CountriesController', 
@@ -41,16 +42,14 @@ Route::group(array('prefix' => '/'), function() {
 	Route::resource('sentencespreparations', 'SentencesPreparationsController', 
 		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
-	// Route::resource('categorieingredients', 'CategorieIngredientsController', 
-	// 	array('only' => array('index', 'show', 'store', 'update', 'destroy')));
+	Route::resource('categorieingredients', 'CategoriesIngredientsController', 
+		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
 	// Route::resource('quantiteingredients', 'QuantiteIngredientsController', 
 	// 	array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
-	
-
-	// Route::resource('ingredients', 'IngredientsController', 
-	// 	array('only' => array('index', 'show', 'store', 'update', 'destroy')));
+	Route::resource('ingredients', 'IngredientsController', 
+		array('only' => array('index', 'show', 'store', 'update', 'destroy')));
 
 
 
@@ -60,3 +59,4 @@ Route::group(array('prefix' => '/'), function() {
 
 
 });
+

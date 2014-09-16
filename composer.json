@@ -1,0 +1,5 @@
+{
+    "require": {
+        "way/generators": "2.*"
+    }
+}

@@ -1,0 +1,1 @@
+/Users/Defoncesko/Documents/Site/iamhungry/rest/app/views/Quantities/index.blade.php

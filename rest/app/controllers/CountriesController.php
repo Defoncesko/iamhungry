@@ -10,7 +10,7 @@ class CountriesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Response::json(Country::get());
 	}
 
 	/**

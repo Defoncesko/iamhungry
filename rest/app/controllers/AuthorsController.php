@@ -10,7 +10,7 @@ class AuthorsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Response::json(Author::get());
 	}
 
 	/**

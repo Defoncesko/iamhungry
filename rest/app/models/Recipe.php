@@ -27,4 +27,9 @@ class Recipe extends Eloquent {
 	{
 		return $this -> belongsToMany('CategoriesPreparation','catprepa_sentenceprepa_recipe');
 	}
+
+	public function categoriesingredients()
+	{
+		return $this -> belongsToMany('CategoriesIngredient','catingre_qutyingre_ingr_recipe');
+	}
 }

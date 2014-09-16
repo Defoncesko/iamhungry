@@ -10,7 +10,7 @@ class PhotosController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Response::json(Photo::get());
 	}
 
 	/**

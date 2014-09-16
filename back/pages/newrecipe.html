@@ -1,0 +1,51 @@
+		
+	<div id="newrecipe">
+		
+		<hr />
+		<b>New recipe</b><br />
+
+			<label>Title : </label>
+			<input type="text" name="recipe_title" class="form-control"  maxlength="32" ng-model="recipe.title" required >
+			<br />
+			<br />
+
+			<label>Difficulty : </label>
+			<rating ng-model="difficulty" max="max" readonly="isReadonly" on-leave="hoveringLeave(value)"></rating>
+			
+			&emsp;&emsp;&emsp;&emsp;&emsp;
+
+			<label>Nbr person : </label>
+			<rating ng-model="nb_person" max="max" readonly="isReadonly" on-hover="hoveringLeave(value)" on-leave="overStar = value"></rating>
+
+			&emsp;&emsp;&emsp;&emsp;&emsp;
+
+			<span  class="country">
+			    <select ng-model="myCountry" ng-options="country.name for country in countries">
+			      <option value="">-- choose country --</option>
+			    </select>
+			</span>&emsp;
+			Currently selected: {{ {selected_country:myCountry} }}
+
+			<br />
+			<br />
+
+			<label>Time prepa : </label>
+			<input type="number" name="recipe_timeprepa" class="form-control" min="0" max="500" ng-model="recipe.timeprepa" required >
+			<span>{{recipe.timeprepa}} en minute(s)</span>
+			<br />
+			<br />
+			<label>Time cooking : </label>
+			<input type="number" name="recipe_timecooking" class="form-control"  min="0" max="500" ng-model="recipe.timecooking" required >
+			<span>{{recipe.timecooking}} en minute(s)</span>
+			<br />
+			<br />
+
+			<label>Advice : </label>
+
+			<textarea type="text"  ng-model="recipe_advice" class="form-control" maxlength="300"></textarea> <span>{{300 - recipe_advice.length}} left</span>
+
+			<br />
+			<br />
+
+	</div>
+	

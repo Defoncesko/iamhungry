@@ -10,7 +10,7 @@ class CategoriesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Response::json(Category::get());
 	}
 
 	/**

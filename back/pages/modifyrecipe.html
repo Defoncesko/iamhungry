@@ -1,0 +1,94 @@
+	
+	<!--<a href ng-click="goForm = !goForm"  class="btn btn-default btn-lg center" ></a>-->
+	<button class="btn btn-default" ng-click="open()">Ajouter un nouvel évènement.</button>
+	
+	<script type="text/ng-template" id="modalNewEvent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Formulaire pour un nouvel evenement</h3>
+        </div>
+        <div class="modal-body">
+            <!-- FORM -->
+			<form>
+				<!-- Tite -->
+				<div id="titre-group" class="form-group">
+					<label>Titre</label>
+					<input type="text" ng-model="titrenew" class="form-control" maxlength="32" placeholder="Titre de l'évènement" /> <span>{{32 - titrenew.length}} left</span>
+
+				</div>
+
+				<!-- Mois -->
+				<div id="mois-group" class="form-group">
+					<label>Mois</label>
+					<input type="text"  ng-model="moisnew" class="form-control" maxlength="8" placeholder="ex : Décembre" />
+				</div>
+				
+				<!-- Date -->
+				<div id="date-group" class="form-group">
+					<label>Date</label>
+					<input type="text " ng-model="datenew" class="form-control" datepicker-popup="{{format}}"  is-open="opened" min-date="minDate" max-date="'2100-06-22'" close-text="Close"/>
+				</div>
+				
+				<!-- Heure -->
+				<div id="heure-group" class="form-group">
+					<label>Heure</label>
+					<timepicker ng-model="heurenew" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+				</div>
+				
+				<!-- Description -->
+				<div id="description-group" class="form-group">
+					<label>Description de l'évènement</label>
+					<textarea type="text"  ng-model="descriptionnew" class="form-control" maxlength="300"></textarea> <span>{{300 - descriptionnew.length}} left</span>
+				</div>
+
+				<!-- SUBMIT BUTTON -->
+				<button type="submit" class="btn btn-success btn-lg btn-block" ng-click="send(titrenew,moisnew,datenew,heurenew,descriptionnew)">
+					<span class="glyphicon glyphicon-flash"></span> Envoyer!
+				</button>
+			</form>
+        </div>
+    </script>
+	
+	<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+	
+	<div id="result">
+	<div ng-show="loader" class="text-center"><img src="img/ajax-loader.gif"/></div>
+		<div class="event-group" ng-repeat="event in events">
+		<hr />
+		<b>Evenement {{ event.id }} </b>
+			<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Editer</button>
+			<fieldset ng-disabled="!isCollapsed">
+					<label>Titre : </label>
+					<input type="text" name="event.titre" class="form-control" ng-model="event.titre" maxlength="32"  required >
+
+				<!-- Mois -->
+					<label>Mois</label>
+					<input type="text" name="event.mois" class="form-control" ng-model="event.mois" maxlength="10" required>
+					
+				<!-- Date -->
+					<label>Date</label>
+					<input type="text" name="event.date" class="form-control" ng-model="event.date"  required >
+				
+				<!-- Heure -->
+					<label>Heure</label>
+					<input type="text" name="event.heure" class="form-control" ng-model="event.heure"  required>
+				
+				<!-- Description -->
+				<div id="description-group" class="form-group">
+					<label>Description</label>
+					<textarea type="text" name="description" class="form-control" ng-model="event.description" maxlength="300" required></textarea>
+				</div>
+			
+			</fieldset>
+			
+			<div collapse="!isCollapsed">
+					<input type="button" class="btn btn-into btn-lg btn-right"  value="Sauvegarder" ng-click="updateThis(event.id,event.titre,event.mois,event.date,event.heure,event.description)"></input>
+					<input type="button" class="btn btn-into btn-lg btn-right"  value="Supprimer" ng-click="deleteThis(event.id)"></input>
+			</div>
+			
+			
+			
+				
+			<hr />
+			
+		</div>
+	</div>

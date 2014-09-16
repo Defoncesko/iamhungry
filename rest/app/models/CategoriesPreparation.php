@@ -3,6 +3,8 @@
 class CategoriesPreparation extends \Eloquent {
 	protected $fillable = ['name'];
 
+	protected $hidden = array('pivot');
+
 	public function recipes()
 	{
 	    return $this->belongsToMany('Recipe');

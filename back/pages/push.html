@@ -1,0 +1,18 @@
+	<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+	
+
+	<!-- FORM -->
+	<form>
+		<!-- Titre -->
+		<div id="titre-group" class="form-group">
+			<label>Message de la notification</label>
+			<textarea type="text" ng-model="message" class="form-control" ></textarea>
+		</div>
+
+		<!-- SUBMIT BUTTON -->
+		<button type="submit" class="btn btn-success btn-lg btn-block" ng-click="send()">
+			Envoyer la notification.
+		</button>
+		
+	</form>
+	

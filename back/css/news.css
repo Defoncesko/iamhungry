@@ -1,0 +1,25 @@
+.container-img{
+	
+	float:left;
+
+}
+
+img{
+
+	display: block;
+	max-width:230px;
+	max-height:95px;
+	width: auto;
+	height: auto;
+	
+}
+
+img:hover{
+
+	filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(1);
+    -o-filter: grayscale(1);
+    -ms-filter: grayscale(1);
+
+}

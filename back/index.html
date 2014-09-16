@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html ng-app="antisantiApp">
+
+	<head>
+	<meta charset="UTF-8">
+
+	<meta name="robots" content="noindex">
+
+	<title>Iamhungry - Administration</title>
+	<link rel="stylesheet" href="css/upload-common.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/news.css">
+
+	
+	<script src="js/angular.js"></script>
+	<script src="js/angular-file-upload.min.js"></script> 
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/angular-routes.js"></script>
+	<script src="js/ui-bootstrap-tpls.js"></script>
+
+	<script src="js/routes.js?105"></script>
+	<script src="js/controllers.js?296"></script>
+	<!--
+	<script src="js/factory.js?1"></script>
+	<script src="js/services.js?1"></script>
+	-->
+	
+
+</head>
+
+<body>
+
+		<header>
+			<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Iamhungry - Tableau de bord</a>
+				</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><i class="fa fa-home"></i> Nouvelles Recettes</a></li>
+					<li><a href="#news"><i class="fa fa-shield"></i> Modifier Recette</a></li>
+				</ul>
+			</div>
+			</nav>
+		</header>
+	
+	<div class="container" ng-view></div>
+
+	<footer>
+		
+	</footer>
+	
+</body>
+
+</html>

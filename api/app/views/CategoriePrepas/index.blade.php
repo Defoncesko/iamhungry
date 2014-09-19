@@ -1,1 +1,0 @@
-/Users/Defoncesko/Documents/Site/iamhungry/api/app/views/CategoriePrepas/index.blade.php

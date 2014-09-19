@@ -1,8 +1,10 @@
 	
 		
 	
-	antisantiApp.controller('newrecipeController', function($scope, $http, $modal, $log) {
+	iamhungryAppAdmin.controller('newrecipeController', function($scope, $http, $modal, $log) {
 		
+		$scope.countingr = 0;
+
 		$scope.rate = 7;
 		$scope.max = 10;
 		$scope.isReadonly = false;
@@ -20,12 +22,12 @@
 	      {name:'Allemagne'},
 	      {name:'USA'}
 	    ];
-			
+					
 	});
 	
 
 
-	antisantiApp.controller('modifyrecipeController', function($scope, $modal, $fileUploader,$http) {
+	iamhungryAppAdmin.controller('modifyrecipeController', function($scope, $modal, $fileUploader,$http) {
 			
-		
+
 	});

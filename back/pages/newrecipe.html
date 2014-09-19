@@ -2,7 +2,7 @@
 	<div id="newrecipe">
 		
 		<hr />
-		<b>New recipe</b><br />
+		<b>New recipe</b> <button>Send this recipe</button><br />
 
 			<label>Title : </label>
 			<input type="text" name="recipe_title" class="form-control"  maxlength="32" ng-model="recipe.title" required >
@@ -46,6 +46,27 @@
 
 			<br />
 			<br />
+
+			<label>Ingredients :</label> <br />
+			<div class="row">
+					<div class="col-xs-4">Quantités</div>
+					<div class="col-xs-8">Ingrédients</div>
+			</div>
+			<div id="space-for-ingr" class="row">
+			</div>
+			<br />
+			<addcategorieingr></addcategorieingr>
+			
+			<br />
+			<br />
+			<br />
+
+			<div ng-bind-html="myHTML"></div>
+
+			<label>Préparations :</label> <br />
+			<addcategorieprep></addcategorieprep>
+			<div id="space-for-prep"></div>
+
 
 	</div>
 	

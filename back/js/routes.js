@@ -1,7 +1,7 @@
-	var antisantiApp = angular.module('antisantiApp', ["ui.bootstrap","ngRoute","angularFileUpload"]);
+	var iamhungryAppAdmin = angular.module('iamhungryAppAdmin', ["ui.bootstrap","ngRoute","angularFileUpload","ngSanitize"]);
 
 	
-	antisantiApp.config(function($routeProvider) {
+	iamhungryAppAdmin.config(function($routeProvider) {
 		$routeProvider
 
 			.when('/', {
